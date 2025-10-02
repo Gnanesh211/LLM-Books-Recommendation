@@ -1,0 +1,319 @@
+ :root {
+      --color-dark: #1e293b; /* Slate 800 */
+      --color-light: #f1f5f9; /* Slate 100 */
+      --color-accent: #3b82f6; /* Blue 500 */
+      --color-accent-dark: #2563eb; /* Blue 600 */
+      --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.1);
+      --shadow-dark: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      /* Darker, dynamic gradient background */
+      background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+      margin: 0;
+      padding: 0;
+      color: var(--color-light);
+      min-height: 100vh;
+    }
+
+    .content-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* --- Header --- */
+    .app-header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      color: white;
+      letter-spacing: -1px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+    h1:hover {
+      transform: scale(1.01);
+    }
+
+    /* --- Search Box (Glassmorphism + Dark) --- */
+    .search-box {
+      display: flex;
+      flex-direction: column; /* Stack on mobile, but primary input is wide */
+      gap: 15px;
+      /* Enhanced Glassmorphism effect in a dark context */
+      background: rgba(43, 62, 80, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 25px;
+      margin: 0 20px 50px;
+      max-width: 1000px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .query-input {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 1rem;
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid transparent;
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .query-input::placeholder {
+      color: #a0aec0;
+    }
+
+    .query-input:focus {
+      border-color: var(--color-accent);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: flex-end; /* Align filters/button to the right on desktop */
+    }
+
+    .filter-select {
+      flex-grow: 1; /* Allow selects to grow if space permits */
+      padding: 15px 20px;
+      font-size: 1rem;
+      color: var(--color-dark);
+      background-color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      outline: none;
+      cursor: pointer;
+      appearance: none; /* Remove default select styling */
+      transition: transform 0.1s ease;
+      min-width: 150px;
+    }
+
+    .find-button {
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .find-button:hover {
+      background: var(--color-accent-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(59, 130, 246, 0.4);
+    }
+
+    /* --- Gallery Grid and Animation --- */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 30px;
+      padding: 0 20px 80px;
+    }
+
+    /* Card Entry Animation (Staggered Fade-in) */
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .card {
+      position: relative;
+  transition: transform 0.4s ease, z-index 0.4s ease, opacity 0.4s ease;
+  outline: none; /* remove focus outline */
+      opacity: 0; /* Start hidden for animation */
+      animation: cardAppear 0.5s ease-out forwards;
+      /* Apply delay based on the loop index set in HTML */
+      animation-delay: calc(var(--index) * 0.1s); 
+
+      background: var(--color-dark);
+      border-radius: 12px;
+      box-shadow: var(--shadow-dark);
+      perspective: 1000px; /* Enable 3D transform for the card */
+      transition: all 0.5s ease;
+    }
+
+    /* 3D Interactive Hover Effect */
+    .card:hover {
+      transform: translateY(-10px) scale(1.05); /* Lifts up and scales slightly */
+      box-shadow: 0 20px 50px rgba(59, 130, 246, 0.3); /* Accent shadow */
+    }
+
+    .img-wrap {
+      position: relative;
+      width: 100%;
+      height: 350px; /* Consistent height for covers */
+      border-radius: 12px;
+      overflow: hidden;
+      transform-style: preserve-3d; /* Key for 3D flip */
+      transition: transform 0.5s ease;
+    }
+
+    .book-cover {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: filter 0.3s ease;
+      backface-visibility: hidden;
+    }
+    .overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.overlay p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* --- Focus (click) effect --- */
+.card:focus-within,
+.card:focus {
+  transform: scale(1.15);
+  z-index: 10;
+}
+
+/* Dim all other cards when one is focused */
+.gallery:focus-within .card:not(:focus-within) {
+  opacity: 0.3;
+}
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.85); /* Dark, readable overlay */
+      color: white;
+      border-radius: 12px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+
+      /* Position the overlay on the "back" of the 3D space */
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+    }
+    /* Center align the main content */
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center; /* Center align all inner text */
+}
+
+/* Dropdown with custom arrow */
+.filter-select {
+  appearance: none; /* Remove default */
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%231e293b' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 18px 18px;
+  padding-right: 40px; /* extra space for arrow */
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* Book description under cover */
+.book-desc {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-light);
+  text-align: center;
+}
+
+
+    /* The actual "flip" on hover */
+    .card:hover .img-wrap {
+  transform: scale(1.08);
+  box-shadow: 0 20px 50px rgba(59, 130, 246, 0.3);
+}
+    .card:hover .overlay {
+      opacity: 1; /* Show overlay when flipped */
+    }
+
+    .overlay p {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    /* --- Responsiveness --- */
+    @media (min-width: 768px) {
+      .search-box {
+        flex-direction: row; /* Horizontal layout */
+        align-items: center;
+      }
+      
+      .query-input {
+        flex-grow: 2; /* Main input takes more space */
+      }
+
+      .filter-group {
+        flex-grow: 1;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .app-header {
+        padding: 30px 10px 20px;
+      }
+      .search-box {
+        margin: 0 10px 40px;
+        padding: 20px;
+      }
+      .filter-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .filter-select, .find-button {
+        width: 100%;
+        padding: 12px 15px;
+      }
+      .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+      .img-wrap {
+        height: 300px;
+      }
+    }

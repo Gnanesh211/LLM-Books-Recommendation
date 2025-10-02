@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📚 Semantic Book Recommender</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+  </head>
+<body>
+  <header class="app-header">
+    <h1>📚 Semantic Book Recommender</h1>
+    <h3>Discover books by meaning, not keywords 😉</h3>
+  </header>
+
+  <main class="content-container">
+    <form method="POST" class="search-box">
+      <!-- Input field should take up max space -->
+      <input type="text" name="query" placeholder="Describe the book you're looking for..." required class="query-input">
+      
+      <!-- Selects and Button group -->
+      <div class="filter-group">
+        <select name="category" class="filter-select">
+          {% for cat in categories %}
+          <option value="{{ cat }}">{{ cat }}</option>
+          {% endfor %}
+        </select>
+        <select name="tone" class="filter-select">
+          {% for t in tones %}
+          <option value="{{ t }}">{{ t }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="find-button">Find</button>
+      </div>
+    </form>
+
+    <section class="gallery">
+  {% for book in results %}
+  <a href="{{ book.link }}" target="_blank" class="card" style="--index: {{ loop.index0 }};">
+    <div class="img-wrap">
+      <img src="{{ book.thumbnail }}" alt="Book Cover" class="book-cover">
+      <div class="overlay">
+        <p>{{ book.caption }}</p>
+      </div>
+    </div>
+    <p class="book-desc">{{ book.caption }}</p>
+  </a>
+  {% endfor %}
+</section>
+  </main>
+</body>
+</html>
